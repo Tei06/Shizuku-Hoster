@@ -313,7 +313,7 @@ class Points(commands.Cog):
                 money = m['Wallet']
             collection.update_one({'_id': ctx.author.id}, {'$inc':{'Wallet':-1*money}}, upsert=True)
             collection.update_one({'_id': ctx.author.id}, {'$inc':{'Bank':money}}, upsert=True)
-            await ctx.send(f"Successfully withdrew {money} points from your bank")
+            await ctx.send(f"Successfully deposited {money} points from your bank")
         else:
             amount = int(amount)
             if amount < 0:
