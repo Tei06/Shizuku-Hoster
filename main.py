@@ -17,7 +17,7 @@ prefixes = ["?","shiz ","Shiz", 's!']
 bot = commands.Bot(command_prefix=prefixes, intents=discord.Intents.all())
 
 
-"""@bot.event
+@bot.event
 async def on_message(message):
     empty_array = []
     modmail_channel = discord.utils.get(bot.get_all_channels(), name="hand-pics")
@@ -48,7 +48,7 @@ async def on_message(message):
             mod_message = string[index:]
             await member_object.send("[" + message.author.display_name + "]" + mod_message)
 
-    await bot.process_commands(message)"""
+    await bot.process_commands(message)
 
 
 @bot.event
