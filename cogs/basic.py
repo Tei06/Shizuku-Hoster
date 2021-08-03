@@ -42,7 +42,7 @@ def text_to_owo(text):
 class Basic(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    @commands.command()
+    @commands.command(brief="hacks someone in the server")
     async def hack(self, ctx, member: discord.Member):
         await ctx.message.delete()
         message = await ctx.channel.send(f"[▝]Logging in to {member.mention} <a:EE_loading:855933211644788757>")
@@ -73,7 +73,7 @@ class Basic(commands.Cog):
         await asyncio.sleep(0.5)
         await ctx.channel.send(content = f"the concerning and sus hack has been completed on {member.name}")
     
-    @commands.command()
+    @commands.command(brief="sned ur message but in owo")
     async def owo(self, ctx, *, message):
         await ctx.message.delete()
         await ctx.send(text_to_owo(message))
@@ -92,7 +92,7 @@ class Basic(commands.Cog):
             embed.set_image(url = member.avatar_url)
             await ctx.send(embed=embed)
     
-    @commands.command()
+    @commands.command(brief="shows server stats")
     async def server(self, ctx):
         server = ctx.message.guild
 
@@ -116,7 +116,7 @@ class Basic(commands.Cog):
         embeded.add_field(name="Channel Count:", value=channels, inline=True)
 
         await ctx.send(embed=embeded)
-    @commands.command()
+    @commands.command(brief="command is a work in progress")
     async def timer(self, ctx, number:int):
         try:
             if number < 0:
@@ -136,12 +136,12 @@ class Basic(commands.Cog):
 
         except ValueError:
             await ctx.send('time was not a number')
-    @commands.command(aliases=['motiv', 'm'])
+    @commands.command(aliases=['motiv', 'm'], brief="motivational quote")
     async def motivation(self, ctx):
         await ctx.message.delete()
         quote = get_quote()
         await ctx.channel.send(quote)
-    @commands.command(aliases=['8ball'])
+    @commands.command(aliases=['8ball'], brief="gives you a random yes - no response")
     async def _8ball(self, ctx, *, question):
         responses = [
                     "It is certain.",
