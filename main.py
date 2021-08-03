@@ -2,16 +2,10 @@ import discord
 import os
 from dotenv import load_dotenv
 from discord.ext import commands
-import json
 import random
 load_dotenv()
 
-def get_prefix(bot, message):
-    with open('prefixes.json', 'r') as f:
-        prefixes = json.load(f)
-    
 
-    return prefixes[str(message.guild.id)]
 prefixes = ["?","shiz ","Shiz", 's!']
 bot = commands.Bot(command_prefix=prefixes, intents=discord.Intents.all())
 
@@ -19,11 +13,11 @@ bot = commands.Bot(command_prefix=prefixes, intents=discord.Intents.all())
 @bot.event
 async def on_message(message):
     empty_array = []
-    modmail_channel = discord.utils.get(bot.get_all_channels(), name="hand-pics")
+    modmail_channel = discord.utils.get(bot.get_all_channels(), name="general")
 
     if message.author == bot.user:
         return
-    if str(message.channel.type) == "private":
+    if str(message.channel.type) == "text":
         if message.attachments != empty_array:
             files = message.attachments
             await modmail_channel.send("[" + message.author.display_name + f":{message.author.id}" + "]")
@@ -60,16 +54,6 @@ async def on_ready():
     bruh = os.getcwd()
     print(bruh)
 
-@bot.event
-async def on_guild_join(guild):
-    with open('prefixes.json', 'r') as f:
-        prefixes = json.load(f)
-
-    prefixes[str(guild.id)] = '?'
-    
-    with open('prefixes.json', 'w') as f:
-        json.dump(prefixes, f, indent=4)
-
 
 @bot.command()
 async def quote(ctx):
@@ -83,6 +67,7 @@ async def quote(ctx):
 if __name__ == "__main__":
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py") and filename != "__init__.py":
+            print(f"loaded: {filename}")
             bot.load_extension(f'cogs.{filename[:-3]}')
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
