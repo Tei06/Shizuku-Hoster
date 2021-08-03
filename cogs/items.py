@@ -25,7 +25,7 @@ class Items(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(brief="command is a work in progress")
     async def purchase(self, ctx):
         await ctx.message.delete()
         stats = collec.find_one({'_id':ctx.author.id})
@@ -66,7 +66,7 @@ class Items(commands.Cog):
                                 collection.update_one({'_id':ctx.author.id}, {'$inc':{'Wallet':-1000000}}, upsert=True)
                 except asyncio.TimeoutError:
                     await ctx.send("You didn't respond in time...".delete(seconds=5))
-    @commands.command()
+    @commands.command(brief="command is a work in progress")
     async def use(self, ctx, item):
         if item == 'role' or 'Custom Role' or 'custom role':
             stats = collec.find_one({'_id':ctx.author.id})
