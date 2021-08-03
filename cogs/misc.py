@@ -101,15 +101,15 @@ class Fun_Commands(commands.Cog):
             await ctx.send(f"Sending you a private message with your random generated password **{ctx.author.name}**")
         await ctx.author.send(f"🎁 **Here is your password:**\n{secrets.token_urlsafe(nbytes)}")
 
-    @commands.command(aliases = ['invite'], brief='Creates instant invite')
-    async def create_invite(self, ctx):
+    @commands.command(brief='Creates instant invite')
+    async def invite(self, ctx):
         link = await ctx.channel.create_invite(max_age = 300)
         await ctx.send("Here is an instant invite to your server: " + link)
 
-    @create_invite.error
+    @invite.error
     async def invite_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
-            await ctx.send(f"{ctx.author.mention} Aw the bot doesn't have perms to create an invite")
+            await ctx.send(f"{ctx.author.mention} Aw the bot doesn't have perms to create an invite :(")
     @commands.command()
     async def rate(self, ctx, *, thing: commands.clean_content):
         """ Rates what you desire """
