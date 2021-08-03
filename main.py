@@ -20,7 +20,7 @@ async def on_message(message):
     if str(message.channel.type) == "private":
         if message.attachments != empty_array:
             files = message.attachments
-            await modmail_channel.send("[" + message.author.display_name + f":{message.author.id}" + "]")
+            await modmail_channel.send("[" + message.author.display_name + "]")
 
             for file in files:
                 await modmail_channel.send(file.url)
