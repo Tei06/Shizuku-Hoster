@@ -5,6 +5,7 @@ import discord
 import asyncio
 import requests
 import urllib
+import bs4
 import secrets
 import random
 
