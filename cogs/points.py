@@ -44,7 +44,7 @@ class Points(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases = ['open', 's'])
+    @commands.command(aliases = ['open', 's'], brief='opens account for a user')
     async def start(self, ctx, member: discord.Member = None):
         if member == None:
             stat = collection.find_one({'_id':ctx.author.id})
@@ -74,7 +74,7 @@ class Points(commands.Cog):
                 await ctx.send("That user already has an account")
 
 
-    @commands.command(aliases = ['rps'])
+    @commands.command(aliases = ['rps'], brief='play rock paper scissors!')
     async def rockpaperscissors(self, ctx):
         await get_user(ctx.author.id)
         rpsGame = ['rock', 'paper', 'scissors']
@@ -192,7 +192,7 @@ class Points(commands.Cog):
                 embed2.set_footer(text='rematch me rn ill smoke ur pack')
                 await msg.edit(embed=embed2)
 
-    @commands.command()
+    @commands.command(brief='you beg the bot for points lol')
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def beg(self, ctx):
         collection.update_one({'_id':ctx.author.id}, {'$inc':{'Bank_Space':2}}, upsert=True) 
@@ -204,7 +204,7 @@ class Points(commands.Cog):
     async def beg_error(self, ctx, error):
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.send(f"{ctx.author.mention} You can beg people for points again in {round(error.retry_after, 1)} seconds")
-    @commands.command()
+    @commands.command(brief='gives you ur daily points')
     @commands.cooldown(1,86400,commands.BucketType.user)
     async def daily(self, ctx):
         await get_user(ctx.author.id)
@@ -217,7 +217,7 @@ class Points(commands.Cog):
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.send(f"{ctx.author.mention} You can claim daily again in {int(round(error.retry_after, 1))} seconds")
             
-    @commands.command(aliases = ['cf','flipcoin'])
+    @commands.command(aliases = ['cf','flipcoin'], brief='guess heads or tails for sum points')
     async def coinflip(self, ctx):
         collection.update_one({'_id':ctx.author.id}, {'$inc':{'Bank_Space':1}}, upsert=True) 
         await ctx.send('You have flipped a coin. heads or tails?')
@@ -241,7 +241,7 @@ class Points(commands.Cog):
             elif comp_flip_result == 'heads':
                 await ctx.send(f"{ctx.author.mention} looks like you didn't guess correctly this time around ;D")
 
-    @commands.command(aliases = ['rob'])
+    @commands.command(aliases = ['rob'], brief='you heartlessly rob someone in the server')
     async def steal(self, ctx, *, member: discord.Member = None):
         await get_user(ctx.author.id)
         if member == None:
@@ -271,7 +271,7 @@ class Points(commands.Cog):
             collection.update_one({'_id':ctx.author.id}, {'$inc':{'Bank_Space':1}}, upsert=True)
             await ctx.send(f"how disappointing. {ctx.author.mention} tried stealing from {member.mention} but walked into a pole and lost {lose_amount} points from hospital fees. :person_facepalming:")
     
-    @commands.command(aliases = ['bal', 'wallet'])
+    @commands.command(aliases = ['bal', 'wallet'], brief='The amount of points in your wallet')
     async def mypoints(self, ctx, member: discord.Member = None):
         await get_user(ctx.author.id)
         if member == None:
@@ -304,7 +304,7 @@ class Points(commands.Cog):
                 embed.set_footer(text=f"{member.name} has {space} available space")
                 await ctx.send(embed=embed)
 
-    @commands.command(aliases = ['dep'])
+    @commands.command(aliases = ['dep'], brief='deposits points into your bank')
     async def deposit(self, ctx, amount):
         await get_user(ctx.author.id)
         if amount  == "all":
@@ -340,7 +340,7 @@ class Points(commands.Cog):
             await ctx.send(f"Successfully deposited {amount} points")
 
 
-    @commands.command(aliases=['with'])
+    @commands.command(aliases=['with'], brief='withdraws points from your bank')
     async def withdraw(self, ctx, amount):
         await get_user(ctx.author.id)
         if amount == "all":
@@ -371,7 +371,7 @@ class Points(commands.Cog):
 
    
 
-    @commands.command()
+    @commands.command(brief='owner command only lol')
     @commands.is_owner()
     async def award(self, ctx, member: discord.Member = None, amount = None):
         await get_user(member.id)
@@ -379,7 +379,7 @@ class Points(commands.Cog):
         collection.update_one({'_id': member.id}, {'$inc':{'Wallet':amount}}, upsert=True)
         await ctx.send(f'{ctx.author.mention} Successfully awarded {amount} points to {member.mention}')
 
-    @commands.command()
+    @commands.command(brief='give someone points!')
     async def give(self, ctx, member: discord.Member = None, amount = None):
         await get_user(ctx.author.id)
         await get_user(member.id)
@@ -403,7 +403,7 @@ class Points(commands.Cog):
         collection.update_one({'_id': member.id}, {'$inc':{'Wallet':amount}}, upsert=True)
         await ctx.send(f'{ctx.author.mention} Successfully sent {amount} points to {member.mention}')
 
-    @commands.command(aliases = ['bet'])
+    @commands.command(aliases = ['bet'], brief='simply bets points for more points')
     async def gamble(self, ctx, amount):
         await get_user(ctx.author.id)
         collection.update_one({'_id':ctx.author.id}, {'$inc':{'Bank_Space':3}}, upsert=True) 
@@ -459,7 +459,7 @@ class Points(commands.Cog):
                 collection.update_one({'_id':ctx.author.id}, {'$inc':{'Bank_Space':1}}, upsert=True) 
                 await ctx.send(embed=em)
 
-    @commands.command(aliases = ['lb'])
+    @commands.command(aliases = ['lb'], brief='buggy commad, dont use lol')
     async def leaderboard(self, ctx, x = 1):
         await ctx.message.delete()
         guild = ctx.author.guild
@@ -490,7 +490,7 @@ class Points(commands.Cog):
                 index += 1
 
 
-    @commands.command(aliases=['adv'])
+    @commands.command(aliases=['adv'], brief='go on a very exciting adventure')
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def adventure(self, ctx):
         collection.update_one({'_id':ctx.author.id}, {'$inc':{'Bank_Space':1}}, upsert=True) 
@@ -585,7 +585,7 @@ class Points(commands.Cog):
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.send(f"{ctx.author.mention} You can go on a adventure again in {round(error.retry_after, 1)} seconds")
     
-    @commands.command(aliases=["slots"])
+    @commands.command(aliases=["slots"], brief='play slots!')
     @commands.cooldown(rate=1, per=3.0, type=commands.BucketType.user)
     async def slot(self, ctx, amount):
         stats = collection.find({'_id':ctx.author.id})
