@@ -4,8 +4,8 @@ import time
 import discord
 import asyncio
 import requests
-import urllib
 import bs4
+import urllib
 import secrets
 import random
 
@@ -13,12 +13,12 @@ class Fun_Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command()
+    @commands.command(brief='The bot says what you want it to')
     async def echo(self, ctx, *, echo):
         await ctx.message.delete()
         await ctx.send(f"{echo}")
     
-    @commands.command(aliases = ['p'])
+    @commands.command(aliases = ['p'], brief='shows bot response speed')
     async def ping(self, ctx):
         await ctx.message.delete()
         before = time.monotonic()
@@ -27,6 +27,7 @@ class Fun_Commands(commands.Cog):
         await message.edit(content=f"Pong!  `{int(ping)}ms`")
 
     @commands.command(aliases = ["google","search"],
+    brief='searches the web for something, is very slow',
     description = "Will search the internet from a given search term and return the top web result")
     async def Search(self, ctx,*,query):
         searchInput = "https://google.com/search?q="+urllib.parse.quote(query)
@@ -56,6 +57,7 @@ class Fun_Commands(commands.Cog):
         """ Press F to pay respect """
         hearts = ["❤", "💛", "💚", "💙", "💜"]
         reason = f"for **{text}** " if text else ""
+        await ctx.message.delete()
         await ctx.send(f"**{ctx.author.name}** has paid their respect {reason}{random.choice(hearts)}")
     
     @commands.command(aliases=["howhot", "hot"])
@@ -108,7 +110,7 @@ class Fun_Commands(commands.Cog):
 
     @commands.command()
     async def beer(self, ctx, user: discord.Member = None, *, reason: commands.clean_content = ""):
-        """ Give someone a beer! 🍻 """
+        """ Give someone a beer🍻 """
         if not user or user.id == ctx.author.id:
             return await ctx.send(f"**{ctx.author.name}**: mmmm beer!🎉🍺")
         if user.id == self.bot.user.id:
