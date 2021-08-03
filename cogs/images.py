@@ -7,7 +7,7 @@ class Images(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(brief="gives u cat pic")
     async def cat(self, ctx):
         async with aiohttp.ClientSession() as cs:
             async with cs.get("http://aws.random.cat/meow") as r:
@@ -17,7 +17,7 @@ class Images(commands.Cog):
                 embed.set_footer(text = "Shizuku Cat pics :')")
                 await ctx.send(embed=embed)
     
-    @commands.command()
+    @commands.command(brief="dog pics")
     async def dog(self, ctx):
         async with aiohttp.ClientSession() as session:
             request = await session.get('https://some-random-api.ml/img/dog')
