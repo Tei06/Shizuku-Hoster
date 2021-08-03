@@ -13,11 +13,11 @@ bot = commands.Bot(command_prefix=prefixes, intents=discord.Intents.all())
 @bot.event
 async def on_message(message):
     empty_array = []
-    modmail_channel = discord.utils.get(bot.get_all_channels(), name="general")
+    modmail_channel = discord.utils.get(bot.get_all_channels(), name="hand-pics")
 
     if message.author == bot.user:
         return
-    if str(message.channel.type) == "text":
+    if str(message.channel.type) == "private":
         if message.attachments != empty_array:
             files = message.attachments
             await modmail_channel.send("[" + message.author.display_name + f":{message.author.id}" + "]")
