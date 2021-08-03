@@ -43,7 +43,7 @@ class Exp(commands.Cog):
                     if xp == 0:
                         await(await message.channel.send(f"Good stuff {message.author.display_name} has leveled up to **level {lvl}**").delete(delay=5))
 
-    @commands.command()
+    @commands.command(brief="command is a work in progress")
     async def rank(self, ctx):
         stats = col.find_one({'_id':ctx.author.id})
         if stats is None:
@@ -73,7 +73,7 @@ class Exp(commands.Cog):
             await ctx.channel.send(embed=embed)
 
     
-    @commands.command()
+    @commands.command(brief="command is a work in progress")
     async def dashboard(self, ctx):
         if (ctx.channel.id == talk_channels):
             rankings = col.find().sort("xp",-1)
