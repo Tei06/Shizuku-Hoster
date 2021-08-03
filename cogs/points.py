@@ -242,6 +242,7 @@ class Points(commands.Cog):
                 await ctx.send(f"{ctx.author.mention} looks like you didn't guess correctly this time around ;D")
 
     @commands.command(aliases = ['rob'], brief='you heartlessly rob someone in the server')
+    @commands.cooldown(1, 30, commands.BucketType.user)
     async def steal(self, ctx, *, member: discord.Member = None):
         await get_user(ctx.author.id)
         if member == None:
@@ -270,7 +271,11 @@ class Points(commands.Cog):
             collection.update_one({'_id': ctx.author.id}, {'$inc':{'Wallet':-1*lose_amount}}, upsert=True)
             collection.update_one({'_id':ctx.author.id}, {'$inc':{'Bank_Space':1}}, upsert=True)
             await ctx.send(f"how disappointing. {ctx.author.mention} tried stealing from {member.mention} but walked into a pole and lost {lose_amount} points from hospital fees. :person_facepalming:")
-    
+    @steal.error
+    async def adventure_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(f"{ctx.author.mention} Jeez you can rob someone again in {round(error.retry_after, 1)} seconds")
+
     @commands.command(aliases = ['bal', 'wallet'], brief='The amount of points in your wallet')
     async def mypoints(self, ctx, member: discord.Member = None):
         await get_user(ctx.author.id)
@@ -378,7 +383,11 @@ class Points(commands.Cog):
         amount = int(amount)
         collection.update_one({'_id': member.id}, {'$inc':{'Wallet':amount}}, upsert=True)
         await ctx.send(f'{ctx.author.mention} Successfully awarded {amount} points to {member.mention}')
-
+    @award.error
+    async def adventure_error(self, ctx, error):
+        if isinstance(error, commands.NotOwner):
+            await ctx.send(f"{ctx.author.mention} Only the owner can use this command lol")
+    
     @commands.command(brief='give someone points!')
     async def give(self, ctx, member: discord.Member = None, amount = None):
         await get_user(ctx.author.id)
@@ -491,7 +500,7 @@ class Points(commands.Cog):
 
 
     @commands.command(aliases=['adv'], brief='go on a very exciting adventure')
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.cooldown(1, 360, commands.BucketType.user)
     async def adventure(self, ctx):
         collection.update_one({'_id':ctx.author.id}, {'$inc':{'Bank_Space':1}}, upsert=True) 
         await ctx.send(f"{ctx.author.mention} you might lose points when you go on a adventure..are you sure? yes or no?")
