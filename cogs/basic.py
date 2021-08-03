@@ -78,7 +78,7 @@ class Basic(commands.Cog):
         await ctx.message.delete()
         await ctx.send(text_to_owo(message))
     
-    @commands.command(aliases = ['av'])
+    @commands.command(aliases = ['av'], brief="shows the mentioned users avatar")
     async def avatar(self, ctx, *, member: discord.Member = None):
         if member == None:
             member = ctx.author
